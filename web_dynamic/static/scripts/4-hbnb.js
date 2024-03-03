@@ -3,6 +3,7 @@ $(() => {
 	let url2 ='http://0.0.0.0:5001/api/v1/places_search/';
 	let aminities = {};
 	const j_data = {};
+	const p_data = {};
 	$('INPUT[type="checkbox"]').change(function () {
 		if ($(this).is(':checked')) {
 			aminities[$(this).attr("data-id")] = $(this).attr("data-name");
@@ -23,7 +24,8 @@ $(() => {
 	})
 	$.post(url2, j_data, (data) => {
 		data.forEach((place) => {
-			            '<article>' +
+		$("section.places").append(
+		'<article>' +
                 '<div class="title_box">' +
                     '<h2>' + place.name + '</h2>' +
                     '<div class="price_by_night">$' + place.price_by_night + '</div>' +
@@ -41,6 +43,14 @@ $(() => {
                 '</div>' +
             '</article>'
 		);
+	});
 	})
+	$('button').click(() => {
+		p_data['amenities'] = Object.keys(aminities);
+		$.post(url2, aminities, (data) => {
+			console.log('Response data:', data);
+		})
 	})
+	
 });
+
